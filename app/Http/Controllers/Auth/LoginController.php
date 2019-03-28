@@ -49,7 +49,6 @@ class LoginController extends Controller
     {
         $maxYear = now()->addYears(-19)->get('year');
 
-
         \Log::debug($request->year);
         \Log::debug('maxYear=' . $maxYear);
 
@@ -62,12 +61,16 @@ class LoginController extends Controller
 
         $guest = User::firstOrCreate(
             [
-                'name'     => 'Guest',
+                'first_name'     => 'Guest',
+                'last_name'     => 'Guest',
+                'mobile'=>'',
+
                 'email'    => 'guest@example.com',
-                'password' => ''
+                'password' => '',
+                'guest' => true
             ]
         );
-        \Log::debug($guest->name);
+        \Log::debug($guest->first_name);
         Auth::login($guest);
 
 

@@ -17,11 +17,12 @@ class AddExtraUserFields extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('name');
             $table->string('title')->after('id')->nullable(true);
-            $table->string('first_name')->after('title');
-            $table->string('last_name')->after('first_name');
-            $table->string('mobile')->after('last_name');
-            $table->string('postcode')->after('mobile');
-            $table->date('date_of_birth')->after('postcode');
+            $table->string('first_name')->after('title')->nullable(true);
+            $table->string('last_name')->after('first_name')->nullable(true);
+            $table->string('mobile')->after('last_name')->nullable(true);
+            $table->string('postcode')->after('mobile')->nullable(true);
+            $table->date('date_of_birth')->after('postcode')->nullable(true);
+            $table->boolean('guest')->after('date_of_birth')->nullable(true);
         });
 
 

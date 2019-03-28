@@ -16,7 +16,7 @@
 
                         <p>You are logged in!</p>
 
-                        @if(Auth::getUser()->name=="Guest")
+                        @if(Auth::getUser()->first_name=="Guest")
                             <p>You are a guest</p>
                             <p>Restricted content</p>
                         @else

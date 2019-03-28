@@ -1,23 +1,49 @@
 <template>
-    <div class="d-flex flex-row">
-        <div>
+    <div class="d-flex flex-row justify-content-center">
+
+        <input type="hidden" :name="fieldName" :value="year">
+
+        <div class="input-container">
             <input
                     name="millenium"
-                    :value="millenium"
+                    v-model="millenium"
                     type="number"
                     max="2"
                     min="1"
-                    class="h1 border"
+                    class="h1 border-0 input-century"
                     maxlength="1">
         </div>
-        <div>
-            <input name="century" :value="century" type="number" max="9" min="0" class="h1" maxlength="1">
+        <div class="input-container">
+            <input
+                    name="century"
+                    v-model="century"
+                    type="number"
+                    max="9"
+                    min="0"
+                    class="h1 border-0 input-century"
+                    maxlength="1">
         </div>
-        <div>
-            <input name="millenium" :value="decade" type="number" max="9" min="0" class="h1" maxlength="1">
+        <div class="input-container">
+            <input
+                    name="decade"
+                    v-model="decade"
+                    type="number"
+                    max="9"
+                    min="0"
+                    class="h1 border-0 input-year"
+                    maxlength="1"
+            >
         </div>
-        <div>
-            <input name="decadeYear" :value="decadeYear" type="number" max="9" min="0" class="h1" maxlength="1">
+        <div class="input-container">
+            <input
+                    name="decadeYear"
+                    v-model="decadeYear"
+                    type="number"
+                    max="9"
+                    min="0"
+                    class="h1 border-0 input-year"
+                    maxlength="1"
+            >
         </div>
 
     </div>
@@ -30,18 +56,28 @@
         props: {
             initialCentury: { // 19,20 etc
                 type: Number
+            },
+            fieldName: {
+                type: String,
+                default: 'year'
             }
         },
         data() {
             return {
                 millenium: 1,
                 century: 9,
-                decade: '',
-                decadeYear: ''
+                decade: 0,
+                decadeYear: 0,
             }
         },
-        created: function() {
-            if (this.initialCentury){
+        computed: {
+            year() {
+                return this.millenium + '' + this.century + '' + this.decade + '' + this.decadeYear;
+            }
+        },
+
+        created: function () {
+            if (this.initialCentury) {
                 this.millenium = Math.floor(this.initialCentury / 10);
                 this.century = this.initialCentury % 10;
             }
@@ -50,6 +86,21 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+    .input-century, .input-year {
+        max-width: 1em;
+        font-size: 3em;
+    }
+
+    .input-year {
+        color: silver;
+    }
+
+    .input-container {
+        border-bottom: solid silver 2px;
+        padding-left: 1em;
+        margin: 0.25em;
+    }
 
 </style>

@@ -79,9 +79,10 @@ class RegisterController extends Controller
             'last_name' => $data['last_name'],
             'mobile' => $data['mobile'],
             'postcode' => $data['postcode'],
-            'date_of_birth' => $data['postcode'],
+            'date_of_birth' => $data['date_of_birth'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'guest' => false
         ]);
     }
     /**
@@ -95,7 +96,6 @@ class RegisterController extends Controller
         \Log::debug('registering');
 
         \Log::debug(json_encode($request->all()));
-
 
         $this->validator($request->all())->validate();
 
