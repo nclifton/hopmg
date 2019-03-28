@@ -2,15 +2,16 @@
 
 @section('content')
     <div class="container login-form">
-        <div class="d-flex flex-row justify-content-center">
-            <div class="card p-0">
-                <div class="card-header bg-white border-0 title w-100 text-center">
-                    <h1>{{ __('BEER REWARDS') }}</h1>
+        <div class="card p-0">
+            <div class="card-header bg-white border-0 title text-center">
+                <h1>{{ __('BEER REWARDS') }}</h1>
+            </div>
+            <div class="card-body d-flex flex-sm-column flex-md-row justify-content-between">
+                @include('auth._guestLogin')
+                <div class="label align-self-center">
+                    or
                 </div>
-                <div class="card-body d-flex flex-row justify-content-between">
-                    @include('auth._guestLogin')
-                    @include('auth._accountLogin')
-                </div>
+                @include('auth._accountLogin')
             </div>
         </div>
     </div>

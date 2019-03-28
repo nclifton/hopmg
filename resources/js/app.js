@@ -22,6 +22,7 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('year-of-birth-input-component', require('./components/YearOfBirthInputComponent.vue').default);
+Vue.component('login-password-component', require('./components/LoginPasswordComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

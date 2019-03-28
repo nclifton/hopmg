@@ -1,19 +1,47 @@
-.login-form{
-  .title, .subtitle {
+.login-form {
+  .title, .label {
     font-weight: 700;
     text-transform: uppercase;
   }
-  .title{
+
+  .title {
     font-size: 2rem;
   }
-  .subtitle {
+
+  .label {
     font-size: 1.8rem;
   }
-  h1{
+
+  h1 {
     font-size: 2rem;
   }
-  h2{
+
+  h2 {
     font-size: 1.8rem;
+  }
+
+  form {
+    max-width: 30em;
+  }
+
+  .input-century, .input-year {
+    max-width: 4rem;
+    font-size: 3rem;
+    padding: 0 0 0 1rem;
+    height: 4rem;
+    margin: 0.25rem;
+  }
+
+  .input-year {
+    color: $gray-500;
+  }
+
+  .input-container {
+    margin: 0.25rem;
+  }
+
+  .year-of-birth-component ~ .invalid-feedback{
+    display: block;
   }
 
 }
