@@ -1,212 +1,453 @@
 <template>
     <div>
-        <b-form @submit="onSubmit" @reset="onReset">
+        <b-form
+                id="registrationForm"
+                @submit="onSubmit"
+                @reset.prevent="onReset"
+                novalidate>
 
-<!--      TODO migrate this form to vue-bootstrap      -->
+            <b-form-group
+                    id="fieldset-email"
+                    :label="emailLabel"
+                    label-for="email"
+                    label-sr-only
+                    :invalid-feedback="invalidFeedback.email"
+                    :state="state.email"
+            >
+                <b-form-input
+                        type="email"
+                        id="email"
+                        v-model="user.email"
+                        :state="state.email"
+                        trim
+                        required
+                        :placeholder="emailLabel"
+                >
 
-            @csrf
-            <div class="form-group row">
-                <label for="email"
-                       class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                </b-form-input>
 
-                <div class="col-md-6">
-                    <input id="email" type="email"
-                           class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                           name="email" value="{{ old('email') }}" required>
 
-                    @if ($errors->has('email'))
-                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                    @endif
-                </div>
-            </div>
+            </b-form-group>
 
-            <div class="form-group row">
-                <label for="title"
-                       class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
+            <b-form-group
+                    id="fieldset-title"
+                    :label="titleLabel"
+                    label-for="title"
+                    label-sr-only
+                    :invalid-feedback="invalidFeedback.title"
+                    :state="state.title"
+            >
 
-                <div class="col-md-6">
-                    <select id="title" class="form-control" name="title" value="{{ old('title') }}"
-                            autofocus>
-                        <option>Mr</option>
-                        <option>Ms</option>
-                        <option>Mrs</option>
-                        <option>Dr</option>
-                    </select>
+                <b-form-select
+                        id="title"
+                        v-model="user.title"
+                        :options="titleOptions"
+                        required
+                        :state="state.title"
+                ></b-form-select>
 
-                </div>
-            </div>
+            </b-form-group>
 
-            <div class="form-group row">
-                <label for="first_name"
-                       class="col-md-4 col-form-label text-md-right">{{ __('First Name') }}</label>
+            <b-form-group
+                    id="fieldset-first_name"
+                    :label="firstNameLabel"
+                    label-for="first_name"
+                    label-sr-only
+                    :invalid-feedback="invalidFeedback.first_name"
+                    :state="state.first_name"
+            >
 
-                <div class="col-md-6">
-                    <input id="first_name" type="text"
-                           class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}"
-                           name="first_name" value="{{ old('first_name') }}" required autofocus>
+                <b-form-input
+                        type="text"
+                        id="first_name"
+                        v-model="user.first_name"
+                        required
+                        trim
+                        :state="state.first_name"
+                        :placeholder="firstNameLabel"
 
-                    @if ($errors->has('first_name'))
-                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('first_name') }}</strong>
-                                    </span>
-                    @endif
-                </div>
-            </div>
+                ></b-form-input>
 
-            <div class="form-group row">
-                <label for="last_name"
-                       class="col-md-4 col-form-label text-md-right">{{ __('Last Name') }}</label>
+            </b-form-group>
 
-                <div class="col-md-6">
-                    <input id="last_name" type="text"
-                           class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}"
-                           name="last_name" value="{{ old('last_name') }}" required autofocus>
+            <b-form-group
+                    id="fieldset-last_name"
+                    :label="lastNameLabel"
+                    label-for="last_name"
+                    label-sr-only
+                    :invalid-feedback="invalidFeedback.last_name"
+                    :state="state.last_name"
+            >
 
-                    @if ($errors->has('last_name'))
-                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('last_name') }}</strong>
-                                    </span>
-                    @endif
-                </div>
-            </div>
+                <b-form-input
+                        id="last_name"
+                        type="text"
+                        v-model="user.last_name"
+                        :state="state.last_name"
+                        required
+                        trim
+                        :placeholder="lastNameLabel"
+                ></b-form-input>
 
-            <div class="form-group row">
-                <label for="mobile"
-                       class="col-md-4 col-form-label text-md-right">{{ __('Mobile') }}</label>
+            </b-form-group>
 
-                <div class="col-md-6">
-                    <input id="mobile" type="text"
-                           class="form-control{{ $errors->has('mobile') ? ' is-invalid' : '' }}"
-                           name="mobile" value="{{ old('mobile') }}" required autofocus>
+            <b-form-group
+                    id="fieldset-mobile"
+                    :label="mobileLabel"
+                    label-for="mobile"
+                    label-sr-only
+                    :invalid-feedback="invalidFeedback.mobile"
+                    :state="state.mobile"
+            >
 
-                    @if ($errors->has('mobile'))
-                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('mobile') }}</strong>
-                                    </span>
-                    @endif
-                </div>
-            </div>
+                <b-form-input
+                        id="mobile"
+                        type="tel"
+                        v-model="user.mobile"
+                        :state="state.mobile"
+                        required
+                        trim
+                        :placeholder="mobileLabel"
+                ></b-form-input>
 
-            <div class="form-group row">
-                <label for="postcode"
-                       class="col-md-4 col-form-label text-md-right">{{ __('Postcode') }}</label>
+            </b-form-group>
 
-                <div class="col-md-6">
-                    <input id="postcode" type="text"
-                           class="form-control{{ $errors->has('postcode') ? ' is-invalid' : '' }}"
-                           name="postcode" value="{{ old('postcode') }}" required autofocus>
+            <b-form-group
+                    id="fieldset-postcode"
+                    :label="postcodeLabel"
+                    label-for="postcode"
+                    label-sr-only
+                    :invalid-feedback="invalidFeedback.postcode"
+                    :state="state.postcode"
+            >
 
-                    @if ($errors->has('postcode'))
-                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('postcode') }}</strong>
-                                    </span>
-                    @endif
-                </div>
-            </div>
+                <b-form-input
+                        id="postcode"
+                        v-model="user.postcode"
+                        type="text"
+                        max="4"
+                        required
+                        trim
+                        :state="state.postcode"
+                        :formatter="postcodeFormatter"
+                        :placeholder="postcodeLabel"
+                ></b-form-input>
 
-            <div class="form-group row">
-                <label for="date_of_birth"
-                       class="col-md-4 col-form-label text-md-right">{{ __('Date of birth') }}</label>
 
-                <div class="col-md-6">
-                    <input id="date_of_birth" type="text"
-                           class="form-control{{ $errors->has('date_of_birth') ? ' is-invalid' : '' }}"
-                           name="date_of_birth" value="{{ old('date_of_birth') }}" required autofocus>
+            </b-form-group>
 
-                    @if ($errors->has('date_of_birth'))
-                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('date_of_birth') }}</strong>
-                                    </span>
-                    @endif
-                </div>
-            </div>
+            <b-form-group
+                    id="fieldset-date_of_birth"
+                    :label="dateOfBirthLabel"
+                    label-for="date_of_birth"
+                    label-sr-only
+                    :invalid-feedback="invalidFeedback.date_of_birth"
+                    :state="state.date_of_birth"
+            >
 
-            <div class="form-group row">
-                <label for="password"
-                       class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                <b-form-input
+                        type="date"
+                        id="date_of_birth"
+                        v-model="user.date_of_birth"
+                        required
+                        :max="maxDateOfBirth"
+                        :placeholder="dateOfBirthLabel + ' (dd/mm/yyyy)'"
+                ></b-form-input>
 
-                <div class="col-md-6">
-                    <input id="password" type="password"
-                           class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                           name="password" required>
+            </b-form-group>
 
-                    @if ($errors->has('password'))
-                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                    @endif
-                </div>
-            </div>
+            <b-form-group
+                    id="fieldset-password"
+                    :label="passwordLabel"
+                    label-for="password"
+                    label-sr-only
+                    :invalid-feedback="invalidFeedback.password"
+                    :state="state.password"
+            >
 
-            <div class="form-group row">
-                <label for="password-confirm"
-                       class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+                <b-input-group>
+                    <b-form-input
+                            id="password"
+                            :type="passwordType"
+                            class="form-control"
+                            v-model="user.password"
+                            required
+                            :placeholder="passwordLabel"
+                    ></b-form-input>
+                    <b-input-group-append>
+                        <b-btn
+                                variant="link"
+                                class="form-control"
+                                @click="showPassword = !showPassword"
+                        >
+                            {{ showLabel }}
+                        </b-btn>
+                    </b-input-group-append>
+                </b-input-group>
 
-                <div class="col-md-6">
-                    <input id="password-confirm" type="password" class="form-control"
-                           name="password_confirmation" required>
-                </div>
-            </div>
+                <password
+                        v-model="user.password"
+                        :strength-meter-only="true"
+                ></password>
 
-            <div class="form-group row">
-                <div class="col-md-4"></div>
-                <div class="col-md-6">
+            </b-form-group>
 
-                    <label for="acceptTerms"
-                           class="text-md-left form-control{{ $errors->has('acceptTerms') ? ' is-invalid' : '' }}">
-                        <input id="acceptTerms" type="checkbox" name="acceptTerms" class="mr-3">
-                        {{ __('I agree to terms of use') }}
-                    </label>
+            <b-form-group>
+                <b-form-checkbox
+                        id="acceptTerms"
+                        name="acceptTerms"
+                        v-model="user.acceptTerms"
+                        :state="state.acceptTerms"
+                        required
+                        :value="true"
+                        :unchecked-value="false"
+                >
+                    {{acceptTermsLabel}}
+                </b-form-checkbox>
+                <b-form-invalid-feedback :state="!validated || user.acceptTerms">{{invalidFeedback.acceptTerms}}
+                </b-form-invalid-feedback>
+            </b-form-group>
 
-                    @if ($errors->has('acceptTerms'))
-                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('acceptTerms') }}</strong>
-                                    </span>
-                    @endif
-                </div>
-            </div>
-
-            <div class="form-group row mb-0">
-                <div class="col-md-6 offset-md-4">
-                    <button type="submit" class="btn btn-primary">
-                        {{ __('Register') }}
-                    </button>
-                </div>
-            </div>
+            <b-button type="submit" variant="primary">{{registerButtonLabel}}</b-button>
+            <b-button type="reset" variant="warning">{{resetButtonLabel}}</b-button>
 
         </b-form>
     </div>
 </template>
 
 <script>
+    import Password from 'vue-password-strength-meter'
+
     export default {
         name: "RegistrationComponent",
+        components: {Password},
+
+        props: {
+            emailLabel: {
+                type: String,
+                default: 'EMAIL'
+            },
+            emailInvalidFeedback: {
+                type: String,
+                default: 'Please provide a valid email address'
+            },
+            titleLabel: {
+                type: String,
+                default: 'TITLE'
+            },
+            titleInvalidFeedback: {
+                type: String,
+                default: 'Please select a title'
+            },
+            firstNameLabel: {
+                type: String,
+                default: 'FIRST NAME'
+            },
+            firstNameInvalidFeedback: {
+                type: String,
+                default: 'please provide a first name'
+            },
+            lastNameLabel: {
+                type: String,
+                default: 'LAST NAME'
+            },
+            lastNameInvalidFeedback: {
+                type: String,
+                default: 'please provide a last name'
+            },
+            mobileLabel: {
+                type: String,
+                default: 'MOBILE'
+            },
+            mobileInvalidFeedback: {
+                type: String,
+                default: 'Please provide a valid telephone number'
+            },
+            postcodeLabel: {
+                type: String,
+                default: 'POSTCODE'
+            },
+            postcodeInvalidFeedback: {
+                type: String,
+                default: 'Please provide a valid australian postcode'
+            },
+            dateOfBirthLabel: {
+                type: String,
+                default: 'DATE OF BIRTH'
+            },
+            dateOfBirthInvalidFeedback: {
+                type: String,
+                default: 'Please provide a valid date of birth'
+            },
+            passwordLabel: {
+                type: String,
+                default: 'PASSWORD'
+            },
+            passwordInvalidFeedback: {
+                type: String,
+                default: 'Please provide a password'
+            },
+            acceptTermsLabel: {
+                type: String,
+                default: 'I agree to terms of use'
+            },
+            acceptTermsInvalidFeedback: {
+                type: String,
+                default: 'Please agree to accept the terms'
+            },
+            registerButtonLabel: {
+                type: String,
+                default: 'REGISTER'
+            },
+            resetButtonLabel: {
+                type: String,
+                default: 'RESET'
+            },
+            titleOptions: {
+                type: Array,
+                default: () => [{value: null, text: 'select title'}, 'Mr', 'Ms', 'Mrs', 'Dr']
+            },
+            maxDateOfBirth: {
+                type: String,
+                default: () => {
+                    var d = new Date();
+                    d.setFullYear(d.getFullYear() - 18);
+                    return d.toISOString();
+                }
+            },
+            passwordHideLabel: {
+                type: String,
+                default: 'hide'
+            },
+            passwordShowLabel: {
+                type: String,
+                default: 'show'
+            }
+
+        },
+
         data() {
             return {
-                user:{
+                user: {
+                    email: null,
                     title: null,
                     first_name: null,
                     last_name: null,
                     mobile: null,
                     postcode: null,
                     date_of_birth: null,
+                    password: null,
+                    acceptTerms: false
+                },
+                state: {
                     email: null,
-                    password: null
-                }
+                    title: null,
+                    first_name: null,
+                    last_name: null,
+                    mobile: null,
+                    postcode: null,
+                    date_of_birth: null,
+                    password: null,
+                    acceptTerms: null
+                },
+                invalidFeedback: {
+                    email: null,
+                    title: null,
+                    first_name: null,
+                    last_name: null,
+                    mobile: null,
+                    postcode: null,
+                    date_of_birth: null,
+                    password: null,
+                    acceptTerms: null
+                },
+                showPassword: false,
+                validated: false
 
             }
         },
+        computed: {
 
+            passwordType() {
+                return this.showPassword ? 'text' : 'password';
+            },
+            showLabel() {
+                return this.showPassword ? this.passwordHideLabel : this.passwordShowLabel;
+            },
+
+        },
+
+        created() {
+            this.invalidFeedback.email = this.emailInvalidFeedback;
+            this.invalidFeedback.title = this.titleInvalidFeedback;
+            this.invalidFeedback.first_name = this.firstNameInvalidFeedback;
+            this.invalidFeedback.last_name = this.lastNameInvalidFeedback;
+            this.invalidFeedback.mobile = this.mobileInvalidFeedback;
+            this.invalidFeedback.postcode = this.postcodeInvalidFeedback;
+            this.invalidFeedback.date_of_birth = this.dateOfBirthInvalidFeedback;
+            this.invalidFeedback.password = this.passwordInvalidFeedback;
+            this.invalidFeedback.acceptTerms = this.acceptTermsInvalidFeedback;
+        },
 
         methods: {
-            onSubmit() {
-                // todo client side validation
-                // todo use axios to attempt registration using registration API
+            onSubmit(event) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                var form = document.getElementById('registrationForm');
+                var valid = true;
+                // Loop over them and prevent submission
+                if (form.checkValidity() === false) {
+                    valid = false;
+                }
+
+                form.classList.add('was-validated');
+                this.validated = true;
+
+                if (valid) {
+                    const url = route('register.api');
+                    axios
+                        .post(url, this.user)
+                        .then(response => this.checkRegistrationResponse(response))
+                        .catch(error => this.handleRegistrationError(error));
+                }
+                return valid;
+
             },
             onReset() {
-                // todo restore form to default values
+                user.email = null;
+                user.title = null;
+                user.first_name = null;
+                user.last_name = null;
+                user.mobile = null;
+                user.postcode = null;
+                user.date_of_birth = null;
+                user.password = null;
+                user.acceptTerms = null;
+            },
+            postcodeFormatter(value, event) {
+                // allows only digits
+                const regex = /[^0-9]/;
+                return value.replace(regex, '');
+            },
+            checkRegistrationResponse(response) {
+                window.location = response.data.redirect;
+            },
+            handleRegistrationError(error) {
+                if (error.response && error.response.status === 422 && error.response.data && error.response.data.errors) {
+                    // validation error
+                    this.handleValidationErrors(error.response.data.errors)
+                } else {
+                    console.log(error);
+                }
+
+            },
+            handleValidationErrors(errors) {
+                for (var item in errors) {
+                    this.state[item] = 'invalid';
+                    this.invalidFeedback[item] = errors[item].join('<br/>');
+                }
             }
         }
     }

@@ -23,5 +23,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/guestLogin', 'Auth\LoginController@guest')->name('guestLogin');
 
+// use the web route group for this api so that we by default have a session created (the api group is stateless)
+Route::post('api/register','Auth\RegisterController@api')->name('register.api');
+
+
 
 

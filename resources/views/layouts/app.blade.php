@@ -18,11 +18,14 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    @routes
+
 </head>
 <body>
 <div id="app">
     @auth()
-    @include('layouts._nav')
+        @include('layouts._nav')
     @endauth
 
     <main class="py-4">

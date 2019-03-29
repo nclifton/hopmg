@@ -57,7 +57,7 @@ class RegisterController extends Controller
             'mobile' => ['required', 'string', 'max:255'],
             'postcode' => ['required', 'numeric', 'max:9999'],
             'date_of_birth' => ['required', 'date', 'max:255'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8'],
             'acceptTerms' => ['required'],
         ],
             [
@@ -93,13 +93,8 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
-        \Log::debug('registering');
-
-        \Log::debug(json_encode($request->all()));
 
         $this->validator($request->all())->validate();
-
-        \Log::debug('validated');
 
         event(new Registered($user = $this->create($request->all())));
 
@@ -108,5 +103,26 @@ class RegisterController extends Controller
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());
     }
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function api(Request $request)
+    {
 
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        $registered = $this->registered($request, $user);
+        return $registered
+            ?: response()->json([
+                'message'=>__('registration successful'),
+                'redirect'=>url($this->redirectPath())
+            ]);
+    }
 }

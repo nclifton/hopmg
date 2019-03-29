@@ -25,6 +25,9 @@
     },
     "dependencies": {
         "bootstrap-vue": "^2.0.0-rc.16",
-        "vue-password": "^1.2.0"
+        "node-sass": "^4.11.0",
+        "vue-password-strength-meter": "^1.4.2",
+        "webpack": "^4.29.6",
+        "zxcvbn": "^4.4.2"
     }
 }

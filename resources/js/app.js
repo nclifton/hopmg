@@ -9,9 +9,21 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+window.axios = require('axios');
+
+window.axios.defaults.headers.common = {
+    'X-Requested-With': 'XMLHttpRequest',
+    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+};
+
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
+Vue.mixin({
+    methods: {
+        route: route
+    }
+});
 
 /**
  * The following block of code may be used to automatically register your
@@ -27,6 +39,7 @@ Vue.use(BootstrapVue)
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('year-of-birth-input-component', require('./components/YearOfBirthInputComponent.vue').default);
 Vue.component('login-password-component', require('./components/LoginPasswordComponent.vue').default);
+Vue.component('registration-component', require('./components/RegistrationComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
