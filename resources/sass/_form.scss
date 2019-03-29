@@ -1,10 +1,14 @@
-.form-control{
+.form-control, .form-group select.custom-select {
   border: 2px solid $gray-500;
   border-top:none;
   border-right:none;
   border-left:none;
   border-radius:0;
-}
-.btn.btn-primary {
 
+}
+input::placeholder{
+  text-transform: uppercase;
+}
+input[type="date"]::-webkit-datetime-edit{
+  text-transform: uppercase;
 }

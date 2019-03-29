@@ -18,7 +18,7 @@
         accept-terms-label="{{ __('I agree to terms of use') }}"
         accept-terms-invalid-feedback="{{ __('Please agree to accept the terms') }}"
         register-button-label="{{ __('REGISTER') }}"
-        :title-options="[{value: null,text:'select title'},'Mr','Ms','Mrs','Dr']"
+        :title-options="[{value: null,text:'TITLE'},'Mr','Ms','Mrs','Dr']"
         password-hide-label="{{__('hide')}}"
         password-show-label="{{__('show')}}"
 ></registration-component>

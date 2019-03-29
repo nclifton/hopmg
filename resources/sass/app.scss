@@ -12,8 +12,9 @@
 @import '~bootstrap-vue/src/index.scss';
 
 // custom
-@import 'login';
 @import 'form';
+@import 'login';
+@import 'register';
 
 .navbar-laravel {
   background-color: #fff;

@@ -192,7 +192,10 @@
 
             </b-form-group>
 
-            <b-form-group>
+            <b-form-group
+                    class="m-0"
+                    id="fieldset-acceptTerms"
+            >
                 <b-form-checkbox
                         id="acceptTerms"
                         name="acceptTerms"
@@ -207,9 +210,10 @@
                 <b-form-invalid-feedback :state="!validated || user.acceptTerms">{{invalidFeedback.acceptTerms}}
                 </b-form-invalid-feedback>
             </b-form-group>
-
-            <b-button type="submit" variant="primary">{{registerButtonLabel}}</b-button>
-            <b-button type="reset" variant="warning">{{resetButtonLabel}}</b-button>
+            <div id="submitButton" class="d-flex d-row justify-content-center align-items-center">
+                <b-button type="submit" variant="primary" class="px-3">{{registerButtonLabel}}</b-button>
+            </div>
+<!--            <b-button type="reset" variant="warning">{{resetButtonLabel}}</b-button>-->
 
         </b-form>
     </div>
@@ -305,7 +309,7 @@
             },
             titleOptions: {
                 type: Array,
-                default: () => [{value: null, text: 'select title'}, 'Mr', 'Ms', 'Mrs', 'Dr']
+                default: () => [{value: null, text: 'TITLE'}, 'Mr', 'Ms', 'Mrs', 'Dr']
             },
             maxDateOfBirth: {
                 type: String,
